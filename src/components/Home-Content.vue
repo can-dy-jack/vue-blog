@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import file from "../source/markdownTest.md";// @dking/markdown-webpack-loader -D = markdown-it  = html-loader
+import file from "../source/hello-world.md";// @dking/markdown-webpack-loader -D = markdown-it  = html-loader
 
 export default {
     name: "Home-Content",
@@ -19,6 +19,8 @@ export default {
 
 <style lang="scss">
 @import "../styles/markdown.scss";
+@import url("highlight.js/styles/github.css");
+
 .home-content {
     width: 80%;
     margin: 0 auto 50px auto;

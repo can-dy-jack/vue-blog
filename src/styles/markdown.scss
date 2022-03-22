@@ -13,11 +13,23 @@
     pre {
         background-color: #efefef;
         overflow: auto;
-        padding: 10px;
-        border-radius: 3px;
         margin: 5px 0;
+        border-radius: 0 0 5px 5px;
         code {
             font-family: Roboto Mono,JetBrains Mono,Consolas,sans;
+        }
+        .lang-head {
+            display: flex;
+            justify-content: space-between;
+            background-color: #42b983;
+            padding: 5px 12px;
+            color: white;
+            i {
+                cursor: pointer;
+            }
+        }
+        .code-box {
+            padding: 8px 12px;
         }
     }
     table {

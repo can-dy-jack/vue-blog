@@ -42,4 +42,9 @@ a {
     font-size: 16px;
   }
 }
+
+::selection {
+  background-color: $vueThemeColor;
+  color:white;
+}
 </style>
