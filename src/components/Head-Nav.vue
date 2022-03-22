@@ -80,7 +80,7 @@ export default {
   justify-content: center;
   color: white;
   z-index: -1;
-  font: bold 50px "华文行楷", "楷体", sans-serif;
+  font: bold 50px "楷体", sans-serif;
 }
 nav {
   width: 100%;
@@ -143,6 +143,7 @@ nav {
     width: 100%;
     padding: 0 5px;
     ul {
+      flex-direction: column;
       li {
         display: none;
       }
