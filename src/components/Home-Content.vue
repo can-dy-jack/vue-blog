@@ -1,11 +1,11 @@
 <template>
   <div class="home-content" id="home-content">
-      <div class="markdown-context" v-html="article"></div>
+    <div class="markdown-context" v-html="article"></div>
   </div>
 </template>
 
 <script>
-import file from "../source/hello-world.md";// @dking/markdown-webpack-loader -D = markdown-it  = html-loader
+import file from "../source/markdownTest.md";// @dking/markdown-webpack-loader -D = markdown-it  = html-loader
 
 export default {
     name: "Home-Content",

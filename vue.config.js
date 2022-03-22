@@ -2,7 +2,8 @@
 const hljs = require('highlight.js');
 
 module.exports = {
-  publicPath: process.env.NODE_ENV === 'production'? '/nuxt/': '/',
+  publicPath: process.env.NODE_ENV === 'production'? '/vue-blog/': '/',
+  outputDir: 'docs',
   configureWebpack: {
     module: {
       rules: [{
