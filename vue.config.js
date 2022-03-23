@@ -7,32 +7,30 @@ module.exports = {
   configureWebpack: {
     module: {
       rules: [{
-        test: /.md$/,
+        test: /\.md$/,
         use: [
-          { loader: 'html-loader' },
           {
-            loader: '@dking/markdown-webpack-loader',
+            loader: "html-loader",
+          },
+          {
+            loader: "markdown-loader",
             options: {
-              html: true,
-              linkify: true,
-              typographer: true,
-              langPrefix: 'lang-',
               highlight: function (str, lang) {
                 let codeColor;
                 if (lang && hljs.getLanguage(lang)) {
                   try {
-                    codeColor = hljs.highlight(lang, str).value;
+                    codeColor = hljs.highlight(str,{ language: lang }).value;
                   } catch (__) {
                     codeColor = str;
                   }
                 }
                 if(lang === "") lang = "plaintext"
                 return `<div class="lang-head"><span>${lang}</span><i class="fas fa-copy"></i></div><div class="code-box">${codeColor}</div>`; 
-              }
-            }
-          }
-        ]
-      }]
+              },
+            },
+          },
+        ],
+      },],
     }
   }
 }

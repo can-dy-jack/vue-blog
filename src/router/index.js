@@ -25,11 +25,11 @@ const routes = [
     name: 'calendar',
     component: () => import(/* webpackChunkName: "friend" */ '../views/CalendarView.vue')
   },
-  // {
-  //   path: '/posts:id',
-  //   name: 'posts',
-  //   component: () => import(/* webpackChunkName: "friend" */ '../views/FriendView.vue')
-  // }
+  {
+    path: '/posts/:name',
+    name: 'posts',
+    component: () => import(/* webpackChunkName: "friend" */ '../views/PostsView.vue')
+  }
 ]
 
 const router = createRouter({

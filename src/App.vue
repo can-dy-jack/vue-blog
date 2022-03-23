@@ -49,12 +49,13 @@ a {
 
 .component-fade-enter-active,
 .component-fade-leave-active {
-  transition: opacity 0.25s ease;
+  transition: opacity 0.25s ease-out,;
+  // transform: translateY(50px);
 }
-
 .component-fade-enter-from,
 .component-fade-leave-to {
   opacity: 0;
+  // transform: translateY(0);
 }
 
 
