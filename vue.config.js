@@ -19,7 +19,7 @@ module.exports = {
                 let language = hljs.getLanguage(lang) ? lang : 'plaintext';
                 let codeColor = hljs.highlight(str,{ language }).value;
                 if(!codeColor) codeColor = str.replace(/</g,'&#60;').replace(/>/g,'&#62;');
-                return `<div class="lang-head"><span> <i class="fas fa-code"></i> ${lang} </span><i class="fas fa-copy"></i></div><div class="code-box">${codeColor}</div>`; 
+                return `<div class="lang-head"><span><i class="fas fa-code"></i> ${lang}</span><i class="fas fa-copy"></i></div><div class="code-box">${codeColor}</div>`; 
               },
             },
           },
