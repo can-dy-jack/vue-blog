@@ -16,11 +16,13 @@ module.exports = {
             loader: "markdown-loader",
             options: {
               highlight: function (str, lang) {
-                let language = hljs.getLanguage(lang) ? lang : 'plaintext';
+                let language = (lang && hljs.getLanguage(lang)) ? lang : 'plaintext';
+                if(!lang) lang = 'plaintext';
                 let codeColor = hljs.highlight(str,{ language }).value;
                 if(!codeColor) codeColor = str.replace(/</g,'&#60;').replace(/>/g,'&#62;');
                 return `<div class="lang-head"><span><i class="fas fa-code"></i> ${lang}</span><i class="fas fa-copy"></i></div><div class="code-box">${codeColor}</div>`; 
               },
+              langPrefix: 'language-'
             },
           },
         ],
