@@ -40,7 +40,7 @@ PHP既可以独立运行，也可以作为Apache的模块运行；本文主要�
 （1）、配置Apache安装路径
 把`Define SRVROOT "c:/apache24"`改为：（大概第37行）
 
-```python
+``` python
 Define SRVROOT "F:/PHP/LAMP/apache/Apache24" # 后面填上你自己的apache路径！
 ```
 
@@ -52,7 +52,7 @@ Define SRVROOT "F:/PHP/LAMP/apache/Apache24" # 后面填上你自己的apache路
 
 以管理员身份运行cmd，并切换到apache的bin目录之下，输入一下命令进行安装：
 
-```bash
+``` bash
 httpd -k install -n apacheName
 ```
 
@@ -60,7 +60,7 @@ httpd -k install -n apacheName
 
 如果需要卸载：
 
-```bash
+``` bash
 httpd -k uninstall -n apacheName
 ```
 
@@ -75,13 +75,12 @@ httpd -k uninstall -n apacheName
 
 上面提到过`htdocs`文件夹是默认的网站根目录，里面有一个`index.html`文件，上面你看到的页面就是这个文件。
 
-{% note success %}
 现在你可以随意修改它，并且在浏览器查看效果！
-{% endnote %}
+
 ![image.png](https://i.loli.net/2021/11/26/N5nAfeTLpOPd3iB.png)
-{% note primary %}
+
 你甚至可以在其它设备的浏览器 通过你的电脑的IP地址 查看效果！
-{% endnote %}
+
 
 ### PHP
 
@@ -93,9 +92,7 @@ httpd -k uninstall -n apacheName
 - 支持多种数据库
 - 快捷性
 
-{% note cyan %}
 语法与使用方式十分接近 本博客框架使用的语言 ejs
-{% endnote %}
 
 > 尽管PHP的优势现在已经不太明显，但还是有必要学一下；
 > 有利于理解后端的知识，并在学习的过程中掌握更多网络相关的知识，不只是PHP；
@@ -103,9 +100,9 @@ httpd -k uninstall -n apacheName
 #### 获取PHP
 
 你可以去[PHP官网](https://www.php.net/)找到最新版的PHP。
-{% note %}
-但是，在下载之前你需要特别注意apache支持的PHP版本；如果你下载最新版本的PHP，但是你使用的apache并不支持，就会报错。
-{% endnote %}
+
+> 但是，在下载之前你需要特别注意apache支持的PHP版本；如果你下载最新版本的PHP，但是你使用的apache并不支持，就会报错。
+
 还有，PHP官网会提供两种版本的PHP，一个是`'Thread Safe'（线程安全）`版本，一个是`'Non Thread Safe'（非线程安全）`版本；
 如果你使用apache运行PHP，则必须下载`'Thread Safe'（线程安全）`版本！
 
@@ -148,7 +145,7 @@ date.timezone = UTC
 回到apache配置文件，在大约186行，引入PHP模块；
 在其中插入以下代码：
 
-```conf
+``` conf
 LoadModule php7_module "F:/PHP/LAMP/php7.3/php7apache2_4.dll"
 <FilesMatch "\.php$">
     setHandler application/x-httpd-php
@@ -157,13 +154,11 @@ PHPIniDir "F:/PHP/LAMP/php7.3"
 LoadFile "F:/PHP/LAMP/php7.3/libssh2.dll"
 ```
 
-{% note %}
 注意需要将后面的路径换成你自己的！
-{% endnote %}
 
 之后查找`dir_module`,将
 
-```conf
+``` conf
 <IfModule dir_module>
     DirectoryIndex index.html
 </IfModule>
@@ -171,7 +166,7 @@ LoadFile "F:/PHP/LAMP/php7.3/libssh2.dll"
 
 改为：
 
-```conf
+``` conf
 <IfModule dir_module>
     DirectoryIndex index.html index.php
 </IfModule>
@@ -179,18 +174,16 @@ LoadFile "F:/PHP/LAMP/php7.3/libssh2.dll"
 
 即，把`index.php`当做第二默认文件。
 
-{% note %}
 点击apache图标，重新启动apache（Restart）。
 ![image.png](https://i.loli.net/2021/11/26/yELObGFx1twVn5S.png)
 如果没有报错，即为配置成功！
-{% endnote %}
 
 #### 测试PHP模块
 
 在`htdocs`目录下新建`index.php`，删去`index.html`；
 打开`index.php`，写入：
 
-```php
+``` php
 <?php
   echo 'Hello PHP!';
 ?>
@@ -211,8 +204,6 @@ LoadFile "F:/PHP/LAMP/php7.3/libssh2.dll"
 
 这个时候需要去百度你使用的apache版本支持哪个版本的PHP，然后重新安装PHP环境与配置。
 
-{% note info %}
 例如，我使用的是Apache/2.4.51 (Win64) ，第一次下载的PHP是7.4版本的，报错。之后改用PHP7.3就成功运行。
-{% endnote %}
 
 2. 你下载的PHP不是'Thread Safe'（线程安全）版本

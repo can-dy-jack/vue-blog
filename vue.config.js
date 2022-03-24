@@ -25,6 +25,7 @@ module.exports = {
                   }
                 }
                 if(lang === "") lang = "plaintext"
+                if(!codeColor) codeColor = str.replace(/</g,'&#60;').replace(/>/g,'&#62;');
                 return `<div class="lang-head"><span>${lang}</span><i class="fas fa-copy"></i></div><div class="code-box">${codeColor}</div>`; 
               },
             },

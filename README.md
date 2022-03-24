@@ -4,14 +4,20 @@
 
 - 动态路由 -> 主页文章列表入口
 - markdown解析
+- 文章评论系统
 
 ## 打包
 
-markdown引入+编译：`@dking/markdown-webpack-loader -D + markdown-it + html-loader`
+markdown引入+编译：`markdown-loader + markd + html-loader`
 
 ## 问题
 
 - 表格溢出
+
+### 已解决
+
+- 编译markdown时，防止XSS注入： `str.replace(/</g,'&#60;').replace(/>/g,'&#62;')`
+
 
 ### markdown解析
 

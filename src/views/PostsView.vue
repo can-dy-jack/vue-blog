@@ -13,6 +13,7 @@
           <div class="markdown-context" v-html="post[2]"></div>
           <hr/>
       </div>
+      <div class="post-comment"></div>
       <ToTop></ToTop>
   </div>
 </template>
@@ -40,6 +41,9 @@ export default {
     computed: {},
     created() {},
     mounted() {},
+    setup() {
+        return {} 
+    }
 }
 </script>
 
