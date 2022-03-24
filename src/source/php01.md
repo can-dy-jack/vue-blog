@@ -3,10 +3,8 @@
 
 ## 搭建开发环境
 
-{% note purple %}
-解析和执行PHP脚本，需要安装PHP运行环境；
-PHP既可以独立运行，也可以作为Apache的模块运行；本文主要介绍PHP为apache的模块运行。
-{% endnote %}
+> 解析和执行PHP脚本，需要安装PHP运行环境；  
+> PHP既可以独立运行，也可以作为Apache的模块运行；本文主要介绍PHP为apache的模块运行。
 
 <!--more-->
 

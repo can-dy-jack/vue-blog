@@ -57,11 +57,18 @@ export default {
 }
 .post-body {
     width: 60%;
+    box-sizing: border-box;
     margin: -80px auto 50px auto;
     padding: 20px;
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 10px 10px rgba(0,0,0,.2);
+}
+@media screen and (max-width: 800px) {
+    .post-body {
+        width: 100%;
+        border-radius: 0;
+    }
 }
 
 </style>
