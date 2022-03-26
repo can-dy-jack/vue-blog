@@ -17,7 +17,7 @@
         margin: 8px 0;
     }
     pre {
-        background-color: #efefef;
+        background-color: #f5f5f5;
         overflow: auto;
         margin: 5px 0;
         border-radius: 0 0 5px 5px;
@@ -77,10 +77,10 @@
         }
     }
     blockquote {
-        padding: 6px 10px;
-        border-left: #888 solid 5px;
+        padding: 0 6px;
+        border-left: #aaa solid 5px;
         margin: 8px 0;
-        color: #888;
+        color: #aaa;
     }
     img {
         max-width: 100% !important;

@@ -80,7 +80,8 @@ export default {
   justify-content: center;
   color: white;
   z-index: -1;
-  font: bold 50px "楷体", sans-serif;
+  font-size: 50px;
+  font-weight: bold;
 }
 nav {
   width: 100%;

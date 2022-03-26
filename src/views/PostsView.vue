@@ -6,9 +6,11 @@
           <div class="markdown-context" v-html="post[1]" v-if="$route.params.name == 'hello-world'"></div>
           <div class="markdown-context" v-html="post[2]" v-if="$route.params.name == 'php01'"></div>
           <hr/>
+          <h2 style="text-align: center;color: #42b983;">评论</h2>
           <PostComment></PostComment>
       </div>
       <ToTop></ToTop>
+      <PostFooter></PostFooter>
   </div>
 </template>
 
@@ -16,6 +18,7 @@
 import HeadNav from "../components/Head-Nav.vue";
 import ToTop from "../components/ToTop.vue";
 import PostComment from "../components/Post-Comment.vue";
+import PostFooter from "../components/PostFooter.vue";
 
 import file1 from "../source/markdownTest.md";
 import file2 from "../source/hello-world.md";
@@ -26,11 +29,12 @@ export default {
     components: {
         HeadNav,
         ToTop,
-        PostComment
+        PostComment,
+        PostFooter
     },
     data() {
         return {
-            post: [file1,file2,file3]
+            post: [file1,file2,file3],
         }
     },
     methods: {

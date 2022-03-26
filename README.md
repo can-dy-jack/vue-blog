@@ -4,9 +4,17 @@
 
 - 动态路由 -> 主页文章列表入口
 - markdown解析 -> 更多语法！
+  - 代码块复制功能
+  - 文章分享功能
+- 文章
+  - 日期
+  - formatter
 - 文章评论系统
-    - form标签？
+  - form标签？
+  - 评论保存地？（GitHub api）
+  - 表情组件的动画
 - 上下篇文章
+- footer组件
 
 ## 打包
 
@@ -15,6 +23,8 @@ markdown引入+编译：`markdown-loader + markd + html-loader`
 ## 问题
 
 - 表格溢出
+- 评论组件
+  - 添加表情时，只能添加到最后，不能添加到鼠标所在地
 
 ### 已解决
 
@@ -25,23 +35,29 @@ markdown引入+编译：`markdown-loader + markd + html-loader`
 
 - 代码块无故多了个20px！，暂时解决： `margin-bottom: -20px;`
 
-### Compiles and minifies for production
+## more need to do
+
+> Compiles and minifies for production
 
 ``` bash
 yarn build
 ```
 
-### Run your unit tests
+> Run your unit tests
 
 ``` bash
 yarn test:unit
 ```
 
-### Lints and fixes files
+> Lints and fixes files
 
 ``` bash
 yarn lint
 ```
 
-### Customize configuration
+> Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+## use
+
+- marked + highlight
