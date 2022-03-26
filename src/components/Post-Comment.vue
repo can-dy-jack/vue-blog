@@ -170,8 +170,7 @@ export default {
       });
       xhr.open("POST", "https://api.github.com/repos/can-dy-jack/vue-blog/issues");
       xhr.setRequestHeader("accept", "application/vnd.github.v3+json");
-      xhr.setRequestHeader("Authorization", "token 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");
-      // xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+
 
       xhr.send(data);
     },
