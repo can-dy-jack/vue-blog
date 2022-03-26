@@ -158,7 +158,7 @@ export default {
     pushGithubIssue: function(){
       pw1= "DuxCJUzopDcMuCSHjY";
       var data = JSON.stringify({
-        "title": this.$route.params.name + "1",
+        "title": "this.$route.params.name2",
         "body": "test for post",
         "labels": [
           "posts",
