@@ -7,7 +7,7 @@
           <div class="markdown-context" v-html="post[2]" v-if="$route.params.name == 'php01'"></div>
           <hr/>
           <h2 style="text-align: center;color: #42b983;">评论</h2>
-          <PostComment></PostComment>
+          <PostComment :sha="shas[$route.params.name]"></PostComment>
       </div>
       <ToTop></ToTop>
       <PostFooter></PostFooter>
@@ -35,6 +35,10 @@ export default {
     data() {
         return {
             post: [file1,file2,file3],
+            shas: {
+                "hello-world":"I4ZR01",
+                "markdownTest":"I4ZR14",
+            }
         }
     },
     methods: {

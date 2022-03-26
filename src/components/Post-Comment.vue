@@ -2,15 +2,17 @@
   <div class="post-comment-list">
       <ul>
           <li v-for="text of postComment"
-                  :key="text.id" >
-              <div class="post-comment-item markdown-context">
-                {{ text.title }}
-              <i class="far fa-comment"></i>
+                  :key="text.id" class="post-comment-item">
+              <div class="markdown-context left">
+                {{ text.body.split("=>")[1] }}
               </div>
-              <div>{{ text.body }}</div>
-              <div v-for="label of text.labels" :key="label.id">{{ label.name }}</div>
+              <div class="markdown-context right">
+                <span>{{ text.body.split("=>")[0] }}</span>
+                <i class="fas fa-user-circle"></i>
+              </div>
           </li>
       </ul>
+      <div id="info">{{ info }}</div>
   </div>
   <div class="post-comment">
     <div class="post-comment-userInfo">
@@ -42,7 +44,7 @@
     </div>
     <div class="post-comment-control">
       <i class="fab fa-markdown"></i>
-      <button class="emit" @click="pushGithubIssue()">提交</button>
+      <button class="emit" @click="pushGiteeIssue()">提交</button>
     </div>
     <div
       id="post-comment-markdown-compile"
@@ -76,6 +78,7 @@ export default {
   components: {
     EmojiPicker,
   },
+  props: ["sha"],
   data() {
     return {
       cmTrue: false,
@@ -85,6 +88,7 @@ export default {
       commentText: '',
       // "## 评论系统制作\n> marked + highlight\n```js\nconsole.log(test code);\n```",
       postComment: [],
+      info: 'information'
     };
   },
   computed: {
@@ -139,10 +143,10 @@ export default {
         }
         */
     },
-    getGithubIssue: function(){
+    getGiteeIssue: function(issue){
       var config = {
         method: 'get',
-        url: 'https://gitee.com/api/v5/repos/Kartjim/vue-blog-comment/issues?access_token=faad98b49118c1de7e3c76d65c9d27ff&state=open&sort=created&direction=desc&page=1&per_page=20',
+        url: 'https://gitee.com/api/v5/repos/Kartjim/vue-blog-comment/issues/' + issue + '/comments?access_token=e4f612fbd30144e6efb96a947cdc5a48&page=1&per_page=20&order=asc',
       };
       axios(config)
       .then((response)=>{
@@ -152,18 +156,22 @@ export default {
         console.log(error);
       });
     },
-    pushGithubIssue: function(){
-      let title = this.$route.params.name+ '@' + this.userName,body = this.userEmail + ' | ' +this.commentText,labels = 'posts-comments';
+    pushGiteeIssue: function(){
+      const info = document.getElementById("info");
+      let body = this.userName + ' - ' +  this.userEmail + ' => ' +this.commentText;
       const access_token = "faad98b49118c1de7e3c76d65c9d27ff";
-      var config = {
-        method: 'post',
-        url: 'https://gitee.com/api/v5/repos/Kartjim/issues?access_token='+ access_token +'&owner=Kartjim&repo=vue-blog-comment&title='+ title + '&body=' + body + '&labels=' + labels + '&security_hole=false',
-      };
-      axios(config)
-      .then(()=>{
-        console.log("评论成功！提交即可查看您的评论!");
+      axios.post('https://gitee.com/api/v5/repos/Kartjim/vue-blog-comment/issues/'+ this.sha +'/comments', {
+        access_token: access_token,
+        body: body
       })
-      .catch((error)=>{
+      .then(()=>{
+        this.info = "评论成功！刷新即可查看您的评论!";
+        info.style.display = "block";
+        setTimeout(()=>{
+          info.style.display = "none";
+        },2000);
+      })
+      .catch(function (error) {
         console.log(error);
       });
     },
@@ -171,7 +179,7 @@ export default {
   mounted() {
     this.viewCompileMarkdown();
     this.viewEmojis();
-    this.getGithubIssue();
+    this.getGiteeIssue(this.sha);
   },
 };
 </script>
@@ -187,7 +195,29 @@ export default {
             border-bottom: 1px dashed #42b983;
             margin: 10px 0;padding: 5px 10px;
             background: #fef9fe;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            .right {
+              span {
+                font-size: 12px;
+              }
+              i {
+                font-size: 20px;
+              }
+            }
         }
+    }
+    #info {
+      display: none;
+      position: fixed;
+      top: 50px;left: 50%;
+      transform: translateX(-50%);
+      background: #309165;color: white;
+      padding: 8px 12px;
+      z-index: 200;
+      border-radius: 2px;
+      box-shadow: 0 0 6px 4px rgba(0,0,0,.1);
     }
 }
 
