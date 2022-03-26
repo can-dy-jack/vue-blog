@@ -154,24 +154,35 @@ export default {
         });
     },
     pushGithubIssue: function(){
+      var axios = require('axios');
       var data = JSON.stringify({
-        "title": this.$route.params.name + "2",
+        "title": "this.$route.params.name2",
         "body": "test for post",
         "labels": [
           "posts",
           "test"
         ]
       });
-      var xhr = new XMLHttpRequest();
-      xhr.addEventListener("readystatechange", function() {
-        if(this.readyState === 4) {
-          console.log(this.responseText);
-        }
+
+      var config = {
+        method: 'post',
+        url: 'https://api.github.com/repos/can-dy-jack/vue-blog/issues',
+        headers: { 
+          'accept': 'application/vnd.github.v3+json', 
+          'Authorization': this.commentText,
+          'Content-Type': 'application/json'
+        },
+        data : data
+      };
+
+      axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+      })
+      .catch(function (error) {
+        console.log(error);
       });
-      xhr.open("POST", "https://api.github.com/repos/can-dy-jack/vue-blog/issues");
-      xhr.setRequestHeader("accept", "application/vnd.github.v3+json");
-      xhr.setRequestHeader("Authorization", "token " + this.commentText);
-      xhr.send(data);
+
     },
   },
   mounted() {
