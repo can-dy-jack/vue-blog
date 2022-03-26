@@ -82,6 +82,8 @@ export default {
       commentText: '',
         // "## 评论系统制作\n> marked + highlight\n```js\nconsole.log(test code);\n```",
       postComment: [],
+      pw2: "Ev8kZRkMFL634b7aKg",
+      pw1: "DuxCJUzopDcMuCSHjY",
     };
   },
   computed: {
@@ -170,8 +172,7 @@ export default {
       });
       xhr.open("POST", "https://api.github.com/repos/can-dy-jack/vue-blog/issues");
       xhr.setRequestHeader("accept", "application/vnd.github.v3+json");
-
-
+      xhr.setRequestHeader("Authorization", "token " + "ghp_" + this.pw1 + this.pw2);
       xhr.send(data);
     },
   },
