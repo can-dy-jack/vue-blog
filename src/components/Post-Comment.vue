@@ -1,21 +1,24 @@
 <template>
-    <!-- <div class="post-comment-list">
-        <ul>
-            <li v-for="text of compilepostComment"
-                    :key="text" >
-                <div class="post-comment-item markdown-context" v-html="text">
-                <i class="far fa-comment"></i>
-                </div>
-            </li>
-        </ul>
-    </div> -->
+  <div class="post-comment-list">
+      <ul>
+          <li v-for="text of postComment"
+                  :key="text.id" >
+              <div class="post-comment-item markdown-context">
+                {{ text.title }}
+              <i class="far fa-comment"></i>
+              </div>
+              <div>{{ text.body }}</div>
+              <div v-for="label of text.labels" :key="label.id">{{ label.name }}</div>
+          </li>
+      </ul>
+  </div>
   <div class="post-comment">
     <div class="post-comment-userInfo">
       <div class="post-comment-username">
         <input type="text" placeholder="名字" v-model="userName" />
       </div>
       <div class="post-comment-userEmail">
-        <input type="email" placeholder="邮件地址" v-model="userPassword" />
+        <input type="email" placeholder="邮件地址" v-model="userEmail" />
       </div>
     </div>
     <div class="post-comment-input">
@@ -78,9 +81,9 @@ export default {
       cmTrue: false,
       emojiTrue: false,
       userName: "",
-      userPassword: "",
+      userEmail: "",
       commentText: '',
-        // "## 评论系统制作\n> marked + highlight\n```js\nconsole.log(test code);\n```",
+      // "## 评论系统制作\n> marked + highlight\n```js\nconsole.log(test code);\n```",
       postComment: [],
     };
   },
@@ -88,13 +91,6 @@ export default {
     commentTextCompile: function () {
       return marked.parse(this.commentText);
     },
-    compilepostComment: function(){
-        let data = [];
-        for(const text of this.postComment){
-            data.push(marked.parse(text));
-        }
-        return data;
-    }
   },
   methods: {
     viewCompileMarkdown: function () {
@@ -144,18 +140,30 @@ export default {
         */
     },
     getGithubIssue: function(){
-        axios.get("https://api.github.com/repos/can-dy-jack/vue-blog/issues")
-    },
-    pushGithubIssue: function(){
       var config = {
-        method: 'post',
-        url: 'https://gitee.com/api/v5/repos/Kartjim/issues?access_token=faad98b49118c1de7e3c76d65c9d27ff&owner=Kartjim&repo=vue-blog-comment&title=test for issuey - :8080&body=body - :8080&labels=test,comment&security_hole=false',
+        method: 'get',
+        url: 'https://gitee.com/api/v5/repos/Kartjim/vue-blog-comment/issues?access_token=faad98b49118c1de7e3c76d65c9d27ff&state=open&sort=created&direction=desc&page=1&per_page=20',
       };
       axios(config)
-      .then(function (response) {
-        console.log(JSON.stringify(response.data));
+      .then((response)=>{
+        this.postComment = response.data;
       })
       .catch(function (error) {
+        console.log(error);
+      });
+    },
+    pushGithubIssue: function(){
+      let title = this.$route.params.name+ '@' + this.userName,body = this.userEmail + ' | ' +this.commentText,labels = 'posts-comments';
+      const access_token = "faad98b49118c1de7e3c76d65c9d27ff";
+      var config = {
+        method: 'post',
+        url: 'https://gitee.com/api/v5/repos/Kartjim/issues?access_token='+ access_token +'&owner=Kartjim&repo=vue-blog-comment&title='+ title + '&body=' + body + '&labels=' + labels + '&security_hole=false',
+      };
+      axios(config)
+      .then(()=>{
+        console.log("评论成功！提交即可查看您的评论!");
+      })
+      .catch((error)=>{
         console.log(error);
       });
     },
@@ -163,7 +171,7 @@ export default {
   mounted() {
     this.viewCompileMarkdown();
     this.viewEmojis();
-    // this.getGithubIssue();
+    this.getGithubIssue();
   },
 };
 </script>
