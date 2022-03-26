@@ -145,36 +145,12 @@ export default {
     },
     getGithubIssue: function(){
         axios.get("https://api.github.com/repos/can-dy-jack/vue-blog/issues")
-        .then(()=>{
-            // for(const d of result.data){
-            //     this.postComment.push(d.body);
-            // }
-
-            // 依照 title中是否含有 $route.params.name 来判断是不是本文章的评论
-        });
     },
     pushGithubIssue: function(){
-      var axios = require('axios');
-      var data = JSON.stringify({
-        "title": "this.$route.params.name2",
-        "body": "test for post",
-        "labels": [
-          "posts",
-          "test"
-        ]
-      });
-
       var config = {
         method: 'post',
-        url: 'https://api.github.com/repos/can-dy-jack/vue-blog/issues',
-        headers: { 
-          'accept': 'application/vnd.github.v3+json', 
-          'Authorization': this.commentText,
-          'Content-Type': 'application/json'
-        },
-        data : data
+        url: 'https://gitee.com/api/v5/repos/Kartjim/issues?access_token=faad98b49118c1de7e3c76d65c9d27ff&owner=Kartjim&repo=vue-blog-comment&title=test for issuey - :8080&body=body - :8080&labels=test,comment&security_hole=false',
       };
-
       axios(config)
       .then(function (response) {
         console.log(JSON.stringify(response.data));
@@ -182,7 +158,6 @@ export default {
       .catch(function (error) {
         console.log(error);
       });
-
     },
   },
   mounted() {
