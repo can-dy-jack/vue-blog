@@ -68,8 +68,6 @@ import axios from "axios";
 
 import EmojiPicker from "vue3-emoji-picker";
 
-var pw2= "Ev8kZRkMFL634b7aKg",pw1;
-
 export default {
   name: "Post-Comment",
   components: {
@@ -156,9 +154,8 @@ export default {
         });
     },
     pushGithubIssue: function(){
-      pw1= "DuxCJUzopDcMuCSHjY";
       var data = JSON.stringify({
-        "title": "this.$route.params.name2",
+        "title": this.$route.params.name + "2",
         "body": "test for post",
         "labels": [
           "posts",
@@ -173,7 +170,7 @@ export default {
       });
       xhr.open("POST", "https://api.github.com/repos/can-dy-jack/vue-blog/issues");
       xhr.setRequestHeader("accept", "application/vnd.github.v3+json");
-      xhr.setRequestHeader("Authorization", "token " + "ghp_" + pw1 + pw2);
+      xhr.setRequestHeader("Authorization", "token " + this.commentText);
       xhr.send(data);
     },
   },
