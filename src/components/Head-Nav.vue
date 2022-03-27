@@ -179,6 +179,7 @@ nav {
         height: 100vh;
         padding: 5px 10px;
         transform: translateX(100%);
+        transition: transform 0.25s ease;
       }
     }
   }
