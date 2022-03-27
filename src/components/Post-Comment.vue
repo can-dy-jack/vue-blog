@@ -3,13 +3,11 @@
       <ul>
           <li v-for="text of postComment"
                   :key="text.id" class="post-comment-item">
-              <div class="markdown-context left">
-                {{ text.body.split("=>")[1] }}
-              </div>
-              <div class="markdown-context right">
-                <span>{{ text.body.split("=>")[0] }}</span>
-                <i class="fas fa-user-circle"></i>
-              </div>
+            <div class="markdown-context info">
+              <i class="fas fa-user-circle"></i>
+              <span>{{ text.body.split("=>")[0] }}</span>
+            </div>
+            <div class="markdown-context text" v-html="compileComment(text.body.split('=>')[1])"></div>
           </li>
       </ul>
       <div id="info">{{ info }}</div>
@@ -88,7 +86,7 @@ export default {
       commentText: '',
       // "## 评论系统制作\n> marked + highlight\n```js\nconsole.log(test code);\n```",
       postComment: [],
-      info: 'information'
+      info: ''
     };
   },
   computed: {
@@ -144,6 +142,7 @@ export default {
         */
     },
     getGiteeIssue: function(issue){
+      if(!issue) return;
       var config = {
         method: 'get',
         url: 'https://gitee.com/api/v5/repos/Kartjim/vue-blog-comment/issues/' + issue + '/comments?access_token=e4f612fbd30144e6efb96a947cdc5a48&page=1&per_page=20&order=asc',
@@ -158,6 +157,26 @@ export default {
     },
     pushGiteeIssue: function(){
       const info = document.getElementById("info");
+      if(this.sha === undefined){
+        this.info = "等待评论开启！";
+        info.style.display = "block";
+        info.classList.add("log");
+        setTimeout(()=>{
+          info.style.display = "none";
+          info.classList.remove("log");
+        },4000);
+        return;
+      }
+      if(this.userName === "" || this.userEmail === ""){
+        this.info = "请先输入名字和邮件再进行评论";
+        info.style.display = "block";
+        info.classList.add("err");
+        setTimeout(()=>{
+          info.style.display = "none";
+          info.classList.remove("err");
+        },3000);
+        return;
+      }
       let body = this.userName + ' - ' +  this.userEmail + ' => ' +this.commentText;
       const access_token = "faad98b49118c1de7e3c76d65c9d27ff";
       axios.post('https://gitee.com/api/v5/repos/Kartjim/vue-blog-comment/issues/'+ this.sha +'/comments', {
@@ -165,16 +184,25 @@ export default {
         body: body
       })
       .then(()=>{
-        this.info = "评论成功！刷新即可查看您的评论!";
+        this.info = "评论成功！";
         info.style.display = "block";
+        info.classList.add("sucess");
         setTimeout(()=>{
           info.style.display = "none";
-        },2000);
+          info.classList.remove("sucess");
+        },3000);
+        this.getGiteeIssue(this.sha);
+        this.userName = "";
+        this.userEmail = "";
+        this.commentText = "";
       })
       .catch(function (error) {
         console.log(error);
       });
     },
+    compileComment: function(text){
+      return marked.parse(text);
+    }
   },
   mounted() {
     this.viewCompileMarkdown();
@@ -189,35 +217,49 @@ export default {
 // 
 .post-comment-list {
     ul {
-        list-style-type: none;
-        padding-left: 0;
-        li {
-            border-bottom: 1px dashed #42b983;
-            margin: 10px 0;padding: 5px 10px;
-            background: #fef9fe;
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            .right {
-              span {
-                font-size: 12px;
-              }
-              i {
-                font-size: 20px;
-              }
-            }
+      list-style-type: none;
+      padding-left: 0;
+      li {
+        border-bottom: 1px dashed #42b983;
+        margin: 10px 0;padding: 5px 10px;
+        background: #fbfdfc;
+        display: flex;
+        flex-direction: column;
+        .info {
+          height: 30px;
+          display: flex;
+          align-items: center;
+          margin-bottom: 8px;
+          span {
+            font-size: 16px;
+            color: gray;
+          }
+          i {
+            font-size: 30px;
+            color: #42b983;
+            margin-right: 5px;
+          }
         }
+      }
     }
     #info {
       display: none;
       position: fixed;
       top: 50px;left: 50%;
       transform: translateX(-50%);
-      background: #309165;color: white;
       padding: 8px 12px;
       z-index: 200;
       border-radius: 2px;
       box-shadow: 0 0 6px 4px rgba(0,0,0,.1);
+    }
+    .sucess {
+      background: #309165;color: white;
+    }
+    .err {
+      background: #e7505d;color: white;
+    }
+    .log{
+      background: rgb(255, 243, 175);
     }
 }
 

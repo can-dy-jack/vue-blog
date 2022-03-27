@@ -20,14 +20,14 @@ export default {
 <style lang="scss">
 //  scoped
 footer {
+    box-sizing: border-box;
     width: 100%;
     height: 200px;
-    background-color: #42b983;
-    color: white;
+    padding: 20px;
     // temp
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-end;
     p {
         text-align: center;
     }

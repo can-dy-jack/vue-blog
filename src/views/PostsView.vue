@@ -38,6 +38,7 @@ export default {
             shas: {
                 "hello-world":"I4ZR01",
                 "markdownTest":"I4ZR14",
+                "php01":"I4ZRV4",
             }
         }
     },
