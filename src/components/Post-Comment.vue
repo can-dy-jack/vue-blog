@@ -1,16 +1,18 @@
 <template>
   <div class="post-comment-list">
-      <ul>
-          <li v-for="text of postComment"
-                  :key="text.id" class="post-comment-item">
-            <div class="markdown-context info">
-              <i class="fas fa-user-circle"></i>
-              <span>{{ text.body.split("=>")[0] }}</span>
-            </div>
-            <div class="markdown-context text" v-html="compileComment(text.body.split('=>')[1])"></div>
-          </li>
-      </ul>
-      <div id="info">{{ info }}</div>
+    <ul>
+      <li v-for="text of postComment" :key="text.id" class="post-comment-item">
+        <div class="markdown-context info">
+          <i class="fas fa-user-circle"></i>
+          <span>{{ text.body.split("=>")[0] }}</span>
+        </div>
+        <div
+          class="markdown-context text"
+          v-html="compileComment(text.body.split('=>')[1])"
+        ></div>
+      </li>
+    </ul>
+    <div id="info">{{ info }}</div>
   </div>
   <div class="post-comment">
     <div class="post-comment-userInfo">
@@ -55,16 +57,16 @@
 <script>
 const marked = require("marked");
 marked.setOptions({
-    renderer: new marked.Renderer(),
-    highlight: function (str, lang) {
-        let language = lang && hljs.getLanguage(lang) ? lang : "plaintext";
-        if (!lang) lang = "plaintext";
-        let codeColor = hljs.highlight(str, { language }).value;
-        if (!codeColor)
-        codeColor = str.replace(/</g, "&#60;").replace(/>/g, "&#62;");
-        return `<div class="lang-head"><span><i class="fas fa-code"></i> ${lang}</span><i class="fas fa-copy"></i></div><div class="code-box">${codeColor}</div>`;
-    },
-    langPrefix: "language-",
+  renderer: new marked.Renderer(),
+  highlight: function (str, lang) {
+    let language = lang && hljs.getLanguage(lang) ? lang : "plaintext";
+    if (!lang) lang = "plaintext";
+    let codeColor = hljs.highlight(str, { language }).value;
+    if (!codeColor)
+      codeColor = str.replace(/</g, "&#60;").replace(/>/g, "&#62;");
+    return `<div class="lang-head"><span><i class="fas fa-code"></i> ${lang}</span><i class="fas fa-copy"></i></div><div class="code-box">${codeColor}</div>`;
+  },
+  langPrefix: "language-",
 });
 const hljs = require("highlight.js");
 import axios from "axios";
@@ -83,10 +85,10 @@ export default {
       emojiTrue: false,
       userName: "",
       userEmail: "",
-      commentText: '',
+      commentText: "",
       // "## 评论系统制作\n> marked + highlight\n```js\nconsole.log(test code);\n```",
       postComment: [],
-      info: ''
+      info: "",
     };
   },
   computed: {
@@ -126,7 +128,7 @@ export default {
           emoji.style.display = "block";
           this.emojiTrue = true;
         }
-      }); 
+      });
     },
     onSelectEmoji: function (emoji) {
       this.commentText += emoji.i;
@@ -141,68 +143,78 @@ export default {
         }
         */
     },
-    getGiteeIssue: function(issue){
-      if(!issue) return;
+    getGiteeIssue: function (issue) {
+      if (!issue) return;
       var config = {
-        method: 'get',
-        url: 'https://gitee.com/api/v5/repos/Kartjim/vue-blog-comment/issues/' + issue + '/comments?access_token=e4f612fbd30144e6efb96a947cdc5a48&page=1&per_page=20&order=asc',
+        method: "get",
+        url:
+          "https://gitee.com/api/v5/repos/Kartjim/vue-blog-comment/issues/" +
+          issue +
+          "/comments?access_token=e4f612fbd30144e6efb96a947cdc5a48&page=1&per_page=20&order=asc",
       };
       axios(config)
-      .then((response)=>{
-        this.postComment = response.data;
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+        .then((response) => {
+          this.postComment = response.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     },
-    pushGiteeIssue: function(){
+    pushGiteeIssue: function () {
       const info = document.getElementById("info");
-      if(this.sha === undefined){
+      if (this.sha === undefined) {
         this.info = "等待评论开启！";
         info.style.display = "block";
         info.classList.add("log");
-        setTimeout(()=>{
+        setTimeout(() => {
           info.style.display = "none";
           info.classList.remove("log");
-        },4000);
+        }, 4000);
         return;
       }
-      if(this.userName === "" || this.userEmail === ""){
-        this.info = "请先输入名字和邮件再进行评论";
+      if (this.userName === "" || this.userEmail === "") {
+        this.info = "请先输入名字和邮件地址再进行评论";
         info.style.display = "block";
         info.classList.add("err");
-        setTimeout(()=>{
+        setTimeout(() => {
           info.style.display = "none";
           info.classList.remove("err");
-        },3000);
+        }, 3000);
         return;
       }
-      let body = this.userName + ' - ' +  this.userEmail + ' => ' +this.commentText;
+      let body =
+        this.userName + " - " + this.userEmail + " => " + this.commentText;
       const access_token = "faad98b49118c1de7e3c76d65c9d27ff";
-      axios.post('https://gitee.com/api/v5/repos/Kartjim/vue-blog-comment/issues/'+ this.sha +'/comments', {
-        access_token: access_token,
-        body: body
-      })
-      .then(()=>{
-        this.info = "评论成功！";
-        info.style.display = "block";
-        info.classList.add("sucess");
-        setTimeout(()=>{
-          info.style.display = "none";
-          info.classList.remove("sucess");
-        },3000);
-        this.getGiteeIssue(this.sha);
-        this.userName = "";
-        this.userEmail = "";
-        this.commentText = "";
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+      axios
+        .post(
+          "https://gitee.com/api/v5/repos/Kartjim/vue-blog-comment/issues/" +
+            this.sha +
+            "/comments",
+          {
+            access_token: access_token,
+            body: body,
+          }
+        )
+        .then(() => {
+          this.info = "评论成功！";
+          info.style.display = "block";
+          info.classList.add("sucess");
+          setTimeout(() => {
+            info.style.display = "none";
+            info.classList.remove("sucess");
+          }, 3000);
+          this.getGiteeIssue(this.sha);
+          this.userName = "";
+          this.userEmail = "";
+          this.commentText = "";
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     },
-    compileComment: function(text){
+    compileComment: function (text) {
       return marked.parse(text);
-    }
+    },
   },
   mounted() {
     this.viewCompileMarkdown();
@@ -214,53 +226,57 @@ export default {
 
 <style lang="scss">
 @import url("../styles/emoji.scss");
-// 
+//
 .post-comment-list {
-    ul {
-      list-style-type: none;
-      padding-left: 0;
-      li {
-        border-bottom: 1px dashed #42b983;
-        margin: 10px 0;padding: 5px 10px;
-        background: #fbfdfc;
+  ul {
+    list-style-type: none;
+    padding-left: 0;
+    li {
+      border-bottom: 1px dashed #42b983;
+      margin: 10px 0;
+      padding: 5px 10px;
+      background: #fbfdfc;
+      display: flex;
+      flex-direction: column;
+      .info {
+        height: 30px;
         display: flex;
-        flex-direction: column;
-        .info {
-          height: 30px;
-          display: flex;
-          align-items: center;
-          margin-bottom: 8px;
-          span {
-            font-size: 16px;
-            color: gray;
-          }
-          i {
-            font-size: 30px;
-            color: #42b983;
-            margin-right: 5px;
-          }
+        align-items: center;
+        margin-bottom: 8px;
+        span {
+          font-size: 16px;
+          color: gray;
+        }
+        i {
+          font-size: 30px;
+          color: #42b983;
+          margin-right: 5px;
         }
       }
     }
-    #info {
-      display: none;
-      position: fixed;
-      top: 50px;left: 50%;
-      transform: translateX(-50%);
-      padding: 8px 12px;
-      z-index: 200;
-      border-radius: 2px;
-      box-shadow: 0 0 6px 4px rgba(0,0,0,.1);
-    }
-    .sucess {
-      background: #309165;color: white;
-    }
-    .err {
-      background: #e7505d;color: white;
-    }
-    .log{
-      background: rgb(255, 243, 175);
-    }
+  }
+  #info {
+    display: none;
+    position: fixed;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 8px 12px;
+    z-index: 200;
+    border-radius: 2px;
+    box-shadow: 0 0 6px 4px rgba(0, 0, 0, 0.1);
+  }
+  .sucess {
+    background: #309165;
+    color: white;
+  }
+  .err {
+    background: #e7505d;
+    color: white;
+  }
+  .log {
+    background: rgb(255, 243, 175);
+  }
 }
 
 .post-comment {
@@ -286,7 +302,7 @@ export default {
           border: 1px dashed #42b983;
         }
         &::placeholder {
-            color: #bbe9d4;
+          color: #bbe9d4;
         }
       }
     }

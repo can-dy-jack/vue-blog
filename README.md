@@ -10,15 +10,9 @@
   - 日期
   - formatter
 - 文章评论系统
-  - form标签？
-  - 评论保存地？（GitHub api）
   - 表情组件的动画
 - 上下篇文章
 - footer组件
-
-## 打包
-
-markdown引入+编译：`markdown-loader + markd + html-loader`
 
 ## 问题
 
@@ -30,18 +24,11 @@ markdown引入+编译：`markdown-loader + markd + html-loader`
 
 - 编译markdown时，防止XSS注入： `str.replace(/</g,'&#60;').replace(/>/g,'&#62;')`
 
-
 ### markdown解析
 
 - 代码块无故多了个20px！，暂时解决： `margin-bottom: -20px;`
 
 ## more need to do
-
-> Compiles and minifies for production
-
-``` bash
-yarn build
-```
 
 > Run your unit tests
 
@@ -60,4 +47,5 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ## use
 
-- marked + highlight
+- markdown引入+编译：`markdown-loader + markd + html-loader`
+- emoji：vue3-emoji-picker
