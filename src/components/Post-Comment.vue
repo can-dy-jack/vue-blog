@@ -156,9 +156,6 @@ export default {
         .then((response) => {
           this.postComment = response.data;
         })
-        .catch(function (error) {
-          console.log(error);
-        });
     },
     pushGiteeIssue: function () {
       const info = document.getElementById("info");

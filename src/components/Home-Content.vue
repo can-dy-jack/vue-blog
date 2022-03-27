@@ -62,4 +62,11 @@ export default {
     }
   }
 }
+@media screen and (max-width: 800px) {
+  .home-content {
+    box-sizing: border-box;
+    width: 100%;
+    border-radius: 0;
+  }
+}
 </style>

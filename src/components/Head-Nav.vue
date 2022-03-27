@@ -10,8 +10,13 @@
             class="title-logo"
           />
           <span>陈科衡的vue实战项目</span>
+          <div class="list-drop-box">
+            <button id="list-drop">
+              <i class="fas fa-bars" id="list-drop-btn"></i>
+            </button>
+          </div>
         </div>
-        <ul>
+        <ul id="nav-link">
           <li class="link-start">
             <router-link to="/"
               ><i class="fas fa-house-user"></i>Home</router-link
@@ -32,9 +37,6 @@
               ><i class="fas fa-calendar-alt"></i>Calendar</router-link
             >
           </li>
-          <li class="list-drop">
-            <i class="fas fa-bars"></i>
-          </li>
         </ul>
       </div>
     </nav>
@@ -45,28 +47,43 @@
 </template>
 
 <script>
-
 export default {
   name: "Head-Nav",
-  props: ["title","sty"],
+  props: ["title", "sty"],
   data() {
-    return {}
+    return {
+      navListOpen: false,
+    };
   },
   methods: {
-    scollBar: function(){
+    scollBar: function () {
       const navbox = document.querySelector(".nav-box");
-      window.onscroll = function(){
-        if(window.scrollY>50){
-          navbox.classList.add('nav-drop');
+      window.onscroll = function () {
+        if (window.scrollY > 50) {
+          navbox.classList.add("nav-drop");
         } else {
           navbox.classList.remove("nav-drop");
         }
-      }
+      };
+    },
+    showNavLink: function(){
+      const btn = document.getElementById("list-drop");
+      const navLink = document.getElementById("nav-link");
+      btn.addEventListener('click',()=>{
+        if(this.navListOpen){
+          navLink.style.transform = "translateX(100%)";
+          this.navListOpen = false;
+        } else {
+          navLink.style.transform = "translateX(0)";
+          this.navListOpen = true;
+        }
+      })
     }
   },
   mounted() {
     this.scollBar();
-  }
+    this.showNavLink();
+  },
 };
 </script>
 
@@ -83,6 +100,9 @@ export default {
   font-size: 50px;
   font-weight: bold;
 }
+.nav-drop {
+  background-color: #232323;
+}
 nav {
   width: 100%;
   height: 40px;
@@ -97,6 +117,7 @@ nav {
   // user-select: none;
   .nav-container {
     height: 40px;
+    width: 80%;
     margin: 0 auto;
     display: flex;
     .title {
@@ -122,45 +143,44 @@ nav {
         }
       }
     }
-  }
-}
-@media screen and (min-width: 1200px) {
-  .nav-container {
-    width: 1000px;
-  }
-}
-@media screen and (min-width: 1000px) and (max-width: 1199px) {
-  .nav-container {
-    width: 800px;
-  }
-}
-@media screen and (min-width: 700px) and (max-width: 999px) {
-  .nav-container {
-    width: 100%;
-  }
-}
-@media screen and (max-width: 699px) {
-  .nav-container {
-    width: 100%;
-    padding: 0 5px;
-    ul {
-      flex-direction: column;
-      li {
-        display: none;
-      }
-      li.list-drop {
-        display: block !important;
-        font-size: 22px;
-        line-height: 40px;
-        padding: 0 10px;
-        margin-right: 10px;
+    .list-drop-box {
+      height: 40px;
+      display: none;
+      button {
+        border: none;
+        outline: none;
+        background: transparent;
         cursor: pointer;
+        color: white;
+        margin-top: 10px;
+      }
+      i {
+        font-size: 20px;
       }
     }
   }
 }
-.nav-drop {
-  background-color: #232323;
+@media screen and (max-width: 800px) {
+  nav {
+    .nav-container {
+      width: 100%;
+      box-sizing: border-box;
+      flex-direction: column;
+      .title {
+        padding: 0 12px 0 12px;
+        .list-drop-box {
+          margin-left: auto;
+          display: block;
+        }
+      }
+      ul {
+        flex-direction: column;
+        background: #232323;
+        height: 100vh;
+        padding: 5px 10px;
+        transform: translateX(100%);
+      }
+    }
+  }
 }
-
 </style>

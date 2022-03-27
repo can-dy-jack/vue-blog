@@ -1,5 +1,5 @@
 <template>
-    <a href="#" class="totop">
+    <a href="#" class="totop" id="totop">
         <i class="fas fa-angle-up"></i>
     </a>
 </template>
